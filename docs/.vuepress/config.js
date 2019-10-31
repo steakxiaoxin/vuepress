@@ -26,7 +26,7 @@ module.exports = {
       { text: "js", link: "/js/" },
       { text: "外链", link: "http://www.baidu.com/" },
       {
-        text: "下拉列表",
+        text: "下拉",
         items: [
           { text: "内链一", link: "/js/" },
           {
