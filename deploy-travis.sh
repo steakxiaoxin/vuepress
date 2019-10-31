@@ -25,6 +25,6 @@ git commit -m 'deploy'
 
 # git push -f git@github.com:steakxiaoxin/vuepress.git master:gh-pages
 echo ${GITHUB_TOKEN}
-git push -f https://${GITHUB_TOKEN}@github.com:steakxiaoxin/vuepress.git master:gh-pages
+git push -f https://${GITHUB_TOKEN}@github.com/steakxiaoxin/vuepress.git master:gh-pages
 
 cd -
