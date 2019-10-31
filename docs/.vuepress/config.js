@@ -23,6 +23,8 @@ module.exports = {
     sidebarDepth: 2, // 将同时提取markdown中h2 和 h3 标题，显示在侧边栏上。
     lastUpdated: "Last Updated", // 文档更新时间：每个文件git最后提交的时间
     nav: [
+      { text: "首页", link: "/" },
+      { text: "其它", link: "/other/" },
       { text: "js", link: "/js/" },
       { text: "外链", link: "http://www.baidu.com/" },
       {
@@ -37,6 +39,7 @@ module.exports = {
       }
     ],
     sidebar: {
+      "/other/": ["", "TC-VP-GP"],
       "/js/": [
         "",
         "js基础",
