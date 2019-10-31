@@ -1,18 +1,10 @@
 language: node_js
+sudo: required
 node_js:
   - "stable"
-
 cache:
   directories:
     - node_modules
-
 script:
   - ./deploy.sh
-
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github-token: $GITHUB_TOKEN
-  local_dir: dist
-  on:
-    branch: master
+branch: master
