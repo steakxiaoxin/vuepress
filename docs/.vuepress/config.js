@@ -1,6 +1,6 @@
 module.exports = {
   title: "新",
-  description: "曾经是个前端",
+  description: "现在是个前端",
   dest: "./dist",
   port: "8888",
   // webpack 配置
