@@ -1,0 +1,13 @@
+{
+  "name": "vuepress",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:steakxiaoxin/vuepress.git",
+  "author": "xiaoxin <steak_xiaoxin@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs",
+    "deploy": "sh deploy.sh"
+  }
+}
