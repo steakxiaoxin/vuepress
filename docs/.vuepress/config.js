@@ -23,6 +23,15 @@ module.exports = {
         hideText: "(●—●)贼子休走！",
         recoverTime: 3000
       }
+    ],
+    [
+      // 使你的 VuePress 站点支持简洁链接
+      "vuepress-plugin-clean-urls",
+      {
+        normalSuffix: "/",
+        indexSuffix: "/",
+        notFoundPath: "/404.html"
+      }
     ]
   ],
   // webpack 配置

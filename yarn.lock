@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+medium-zoom@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/medium-zoom/-/medium-zoom-1.0.4.tgz#b1063093f81151a19989489589edf28e6090630c"
+  integrity sha512-BjE+00gQku3XQfgHDcqyYwQaBtFddzh6Lnj1RZOliqJ9HS0mh/P2IaqVJ25/j9EbnjAUf27mLeLZBRxnd00bfA==
+
+vuepress-plugin-clean-urls@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-clean-urls/-/vuepress-plugin-clean-urls-1.0.3.tgz#87ef2349d6d1f835dc2519abeb0cb99ccf1698a5"
+  integrity sha512-fdsK2e+cTm8mVRm2S8TcnlijPZTX31v61sqUx+4Xiq+KqB05UQlpKI1lz1gte59L8VeDoOE0JjoGXpDFTFlqcQ==
+
 vuepress-plugin-dynamic-title@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/vuepress-plugin-dynamic-title/-/vuepress-plugin-dynamic-title-0.0.5.tgz#32b2c6f381c94aa7b247a9833c63c055300463d6"
@@ -11,6 +21,13 @@ vuepress-plugin-go-top@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/vuepress-plugin-go-top/-/vuepress-plugin-go-top-0.0.1.tgz#c2c45557b2c0b4dc602459b962e55a3ccfa67a5b"
   integrity sha512-v0nU+3Bw/dfC/kdMVHjMfCJM9EouidYaqM6vNJhNiSt8V2gK/XzHgX2imP1C1jlB6t5wrWg8tJ8ghRvnYe3PpA==
+
+vuepress-plugin-medium-zoom@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-medium-zoom/-/vuepress-plugin-medium-zoom-1.1.6.tgz#3908bd22c55bfe5a990e208949b8c809000e96df"
+  integrity sha512-R9fPVMglQC44NZybJHcc7vwRetDpJAmPVQRUUQoN56IR8IuO9ye3Bv0UPf50kmuPd+oHCUVFnM+sXaOZiJcXDQ==
+  dependencies:
+    medium-zoom "^1.0.4"
 
 vuepress-plugin-ribbon@^0.0.6:
   version "0.0.6"

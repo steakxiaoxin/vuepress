@@ -88,9 +88,10 @@ yarn dev # 或者：npm run dev
 yarn build # 或者：npm run build
 ```
 
-### 插件
+### 插件及主题
+[awesome-vuepress](https://github.com/vuepressjs/awesome-vuepress)
 
-#### 1.回到顶部
+#### 1.安装依赖
 
 ```sh
 yarn add vuepress-plugin-go-top vuepress-plugin-ribbon -D
