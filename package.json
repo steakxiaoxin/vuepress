@@ -9,5 +9,8 @@
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
     "deploy": "sh deploy.sh"
+  },
+  "devDependencies": {
+    "vuepress-plugin-dynamic-title": "^0.0.5"
   }
 }

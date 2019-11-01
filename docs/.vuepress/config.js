@@ -3,6 +3,18 @@ module.exports = {
   description: "现在是个前端",
   dest: "./dist",
   port: "8888",
+  plugins: [
+    [
+      "dynamic-title",
+      {
+        showIcon: "/favicon.ico",
+        showText: "(/≧▽≦/)来啦老弟！",
+        hideIcon: "/failure.ico",
+        hideText: "(●—●)喔哟，崩溃啦！",
+        recoverTime: 3000
+      }
+    ]
+  ],
   // webpack 配置
   configureWebpack: {
     resolve: {
