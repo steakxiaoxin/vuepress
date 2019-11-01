@@ -4,6 +4,15 @@ module.exports = {
   dest: "./dist",
   port: "8888",
   plugins: [
+    "go-top",
+    [
+      "ribbon",
+      {
+        size: 100, // 彩带的宽度，默认为 90
+        opacity: 0.3, // 彩带的不透明度，默认为 0.3
+        zIndex: -1 // 彩带的 z-index 属性，默认值为 -1
+      }
+    ],
     [
       "dynamic-title",
       {
@@ -17,6 +26,9 @@ module.exports = {
   ],
   // webpack 配置
   configureWebpack: {
+    devServer: {
+      open: true
+    },
     resolve: {
       alias: {
         "@alias": "path/to/some/dir"

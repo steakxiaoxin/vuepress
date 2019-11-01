@@ -88,6 +88,34 @@ yarn dev # 或者：npm run dev
 yarn build # 或者：npm run build
 ```
 
+### 插件
+
+#### 1.回到顶部
+
+```sh
+yarn add vuepress-plugin-go-top vuepress-plugin-ribbon -D
+```
+
+在 config.js 中添加配置
+
+```js
+module.exports = {
+  plugins: [
+    [
+      "go-top",
+      "ribbon",
+      {
+        size: 90, // 彩带的宽度，默认为 90
+        opacity: 0.8, // 彩带的不透明度，默认为 0.3
+        zIndex: -1 // 彩带的 z-index 属性，默认值为 -1
+      }
+    ]
+  ]
+};
+```
+
+
+
 ### 基本配置
 
 #### 1. Config.js
@@ -99,6 +127,27 @@ module.exports = {
   dest: "./dist",
   port: "8888",
   base: "/vuepress/",
+  plugins: [
+    'go-top',
+    [
+      "ribbon",
+      {
+        size: 100, // 彩带的宽度，默认为 90
+        opacity: 0.3, // 彩带的不透明度，默认为 0.3
+        zIndex: -1 // 彩带的 z-index 属性，默认值为 -1
+      }
+    ],
+    [
+      "dynamic-title",
+      {
+        showIcon: "/favicon.ico",
+        showText: "(/≧▽≦/)来啦老弟！",
+        hideIcon: "/failure.ico",
+        hideText: "(●—●)喔哟，崩溃啦！",
+        recoverTime: 3000
+      }
+    ]
+  ],
   head: [["link", { rel: "icon", href: "/favicon.ico" }]],
   markdown: {
     lineNumbers: true // 代码块显示行号

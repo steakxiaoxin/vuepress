@@ -6,3 +6,13 @@ vuepress-plugin-dynamic-title@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/vuepress-plugin-dynamic-title/-/vuepress-plugin-dynamic-title-0.0.5.tgz#32b2c6f381c94aa7b247a9833c63c055300463d6"
   integrity sha512-SVkyxGHMFnVDJz5T78j0imq9DJlfy1XapWbUKzL3IdTKo7iFE0osQRrO78rr3+adXX/oj3Y4KROvfYaI0DEcBQ==
+
+vuepress-plugin-go-top@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-go-top/-/vuepress-plugin-go-top-0.0.1.tgz#c2c45557b2c0b4dc602459b962e55a3ccfa67a5b"
+  integrity sha512-v0nU+3Bw/dfC/kdMVHjMfCJM9EouidYaqM6vNJhNiSt8V2gK/XzHgX2imP1C1jlB6t5wrWg8tJ8ghRvnYe3PpA==
+
+vuepress-plugin-ribbon@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-ribbon/-/vuepress-plugin-ribbon-0.0.6.tgz#159c5d2b38bcb7022ddeb8272294616836dba3bb"
+  integrity sha512-FrvsLYdO1liymwlVFIEh8jekO5d+bSGJXqrNK2SUG6Nm8n0kTcqBimFjIbLwNU+wfNtxuYj+RpKpL8Omoeszsg==

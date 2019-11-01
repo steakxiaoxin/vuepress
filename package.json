@@ -11,6 +11,8 @@
     "deploy": "sh deploy.sh"
   },
   "devDependencies": {
-    "vuepress-plugin-dynamic-title": "^0.0.5"
+    "vuepress-plugin-dynamic-title": "^0.0.5",
+    "vuepress-plugin-go-top": "^0.0.1",
+    "vuepress-plugin-ribbon": "^0.0.6"
   }
 }
