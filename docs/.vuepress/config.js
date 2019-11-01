@@ -20,8 +20,8 @@ module.exports = {
         showIcon: "/vuepress/favicon.ico",
         showText: "(/≧▽≦/)来啦老弟！",
         hideIcon: "/vuepress/favicon.ico",
-        hideText: "(●—●)贼子休走！",
-        recoverTime: 3000
+        hideText: "(-.-)给朕肥来！",
+        recoverTime: 2000
       }
     ],
     [
