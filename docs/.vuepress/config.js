@@ -18,7 +18,7 @@ module.exports = {
       {
         showIcon: "/favicon.ico",
         showText: "(/≧▽≦/)来啦老弟！",
-        hideIcon: "/failure.ico",
+        hideIcon: "/favicon.ico",
         hideText: "(●—●)喔哟，崩溃啦！",
         recoverTime: 3000
       }
