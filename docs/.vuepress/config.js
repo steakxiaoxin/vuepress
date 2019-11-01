@@ -3,6 +3,7 @@ module.exports = {
   description: "现在是个前端",
   dest: "./dist",
   port: "8888",
+  base: "/vuepress/",
   plugins: [
     "go-top",
     [
@@ -16,9 +17,9 @@ module.exports = {
     [
       "dynamic-title",
       {
-        showIcon: "/favicon.ico",
+        showIcon: "/vuepress/favicon.ico",
         showText: "(/≧▽≦/)来啦老弟！",
-        hideIcon: "/favicon.ico",
+        hideIcon: "/vuepress/favicon.ico",
         hideText: "(●—●)贼子休走！",
         recoverTime: 3000
       }
@@ -39,7 +40,6 @@ module.exports = {
   head: [
     ["link", { rel: "icon", href: "/favicon.ico" }] // 增加一个自定义的 favicon(网页标签的图标)
   ],
-  base: "/vuepress/",
   markdown: {
     lineNumbers: true // 代码块显示行号
   },
