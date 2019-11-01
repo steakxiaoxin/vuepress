@@ -1,5 +1,5 @@
 # 目录
 
-1. [TC-VP-GP](/other/TC-VP-GP.html)
+1. [TC-VP-GP](/other/TC-VP-GP/)
 2. 2...
 3. 3...

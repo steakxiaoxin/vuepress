@@ -57,6 +57,7 @@ module.exports = {
     lastUpdated: "Last Updated", // 文档更新时间：每个文件git最后提交的时间
     nav: [
       { text: "首页", link: "/" },
+      { text: "Blog", link: "/blog/" },
       { text: "其它", link: "/other/" },
       { text: "js", link: "/js/" },
       { text: "外链", link: "http://www.baidu.com/" },
@@ -72,6 +73,7 @@ module.exports = {
       }
     ],
     sidebar: {
+      "/blog/": ["", "webpack小记"],
       "/other/": ["", "TC-VP-GP"],
       "/js/": [
         "",

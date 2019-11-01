@@ -1,0 +1,1391 @@
+# webpack小记
+
+> 为什么要使用构建工具?
+>
+> - 转换 es6 语法
+> - 转换 jsx
+> - css 前缀补全 / 预处理器 (less...)
+> - 压缩混淆
+> - 图片压缩等等
+
+
+
+## webpack 基础用法
+
+### 01.配置文件名称
+
+webpack 默认配置文件：webpack.config.js
+
+可以通过 webpack --config 指定配置文件
+
+
+
+### 02.配置组成
+
+```js
+module.exports = {
+  entry: xx, // 打包的入口文件
+  output: xx, // 打包的输出
+  mode: "production", // 环境
+  module: {
+    rules: [] // loader 配置
+  },
+  plugins: [] // 插件配置
+};
+```
+
+
+
+### 03.基础用法之核心概念
+
+**entry 用来指定 webpack 的打包入口**
+
+```js
+// 单入口
+module.exports = {
+  entry: "./src/index.js",
+}
+
+// 多入口
+module.exports = {
+  entry: {
+    app: "./src/index.js",
+    adminApp: './src/adminApp.js'
+  },
+}
+```
+
+
+
+**output 用来告诉 webpack 如何将编译后的文件输出到磁盘**
+
+```js
+// 单入口
+module.exports = {
+  entry: "./src/index.js",
+  output: {
+    path: path.join(__dirname, "./dist"),
+    filename: "bundle.js"
+  },
+}
+
+// 多入口
+module.exports = {
+  entry: {
+    app: "./src/index.js",
+    adminApp: './src/adminApp.js'
+  },
+  output: {
+    path: path.join(__dirname, "./dist"),
+    filename: "[name].js" // 通过占位符确保文件名称的唯一
+  },
+}
+```
+
+
+
+**loaders 处理文件**
+
+webpack 开箱只支持 js 和 json 两种文件类型，对不能解析的文件， 通过 loaders 去支持其他文件类型并且把他们转化成有效的模块，并且可以添加到依赖图中。
+
+本身是一个函数，接收源文件作为参数，返回转换的结果。
+
+常见的 loaders
+
+| 名称          | 描述                                                         |
+| ------------- | ------------------------------------------------------------ |
+| babel-loader  | 转换es6、es7等 js 新特性语法                                 |
+| style-loader  | 将`css-loader`打包好的css代码以`<style>`标签的形式插入到html文件中 |
+| css-loader    | 支持.css文件的加载和解析                                     |
+| less-loader   | 将less文件专化成cssloader                                    |
+| ts-loader     | 将ts转换成js                                                 |
+| file-loader   | 进行图片、字体等的打包                                       |
+| raw-loader    | 将文件以字符串的形式导入                                     |
+| thread-loader | 多进程打包js和css                                            |
+
+```js
+module.exports = {
+  ...,
+  module: {
+    rules: [{ test: /.(js|jsx)$/, use: { loader: "babel-loader" } }]
+  },
+}
+```
+
+
+
+**plugins 插件用于 bundle 文件的优化，资源管理和环境变量注入，作用域整个构建过程**
+
+| 名称                     | 描述                                                 |
+| ------------------------ | ---------------------------------------------------- |
+| CommonChunkPlugin        | 将chunks相同的模块代码提取成公共js，适用于多页面打包 |
+| CleanWebpackPlugin       | 清理构建目录                                         |
+| ExtractTextWebpackPlugin | 将css从bundle文件里提取一个独立的css文件             |
+| CopyWebpackPlugin        | 将文件或者文件夹拷贝到构建的输出目录                 |
+| HtmlWebpackPlugin        | 创建 html 文件去承载输出的 bundle, 能使用ejs语法     |
+| UglifyjsWebpackPlugin    | 压缩 js                                              |
+| ZipWebpackPlugin         | 将打包出的资源生成一个zip包                          |
+
+```js
+module.exports = {
+  ...,
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, "../src/index.html")
+    })
+  ]
+};
+```
+
+
+
+**mode 用来指定当前的构建环境**
+
+默认为 production
+
+内置函数功能
+
+| 选项        | 描述                                                         |
+| ----------- | ------------------------------------------------------------ |
+| development | 设置 process.env.NODE_ENV 的值为 `development` 开启 `NamedChunksPlugin` 和 `NamedModulesPlugin` （代码热更新 HMR 提示) |
+| production  | 设置 process.env.NODE_ENV 的值为 `production` 开启 FlagDependencyUsagePlugin，FlagIncludedChunksPlugin，ModuleConcatenationPlugin，NoEmitOnErrorsPlugin，OccurrenceOrderPlugin，SideEffectsFlagPlugin，TerserPlugin |
+| none        | 不开启任何优化选项                                           |
+
+
+
+**webpack打包过程**
+
+webpack启动后会从 Entry 里配置的 Module 开始递归解析 Entry 依赖的所有Module.每找到一个Module,就会根据配置的Loader去找出对应的转换规则，对Module进行转换后，再解析出当前的Module依赖的Module.这些模块会以Entry为单位进行分组，一个Entry和其所有依赖的Module被分到一个组也就是一个Chunk。最好Webpack会把所有Chunk转换成文件输出。在整个流程中Webpack会在恰当的时机执行Plugin里定义的逻辑
+
+
+
+### 04.资源解析
+
+**解析 es6**
+
+1. 使用 babel-loader
+2. 配置 .babelrc
+
+`npm i -D @babel/core @babel/preset-env babel-loader`
+
+```js
+module.exports = {
+  ...,
+  module: {
+    rules: [{ test: /\.(js|jsx)$/, use: { loader: "babel-loader" } }]
+  },
+}
+```
+
+```json
+// .babelrc
+{
+  "presets": ["@babel/preset-env"]
+}
+```
+
+[babel7升级采坑](<https://pdsuwwz.github.io/2018/09/29/webpack4-babel7/>) 
+
+**解析 react jsx**
+
+ `npm i -D @babel/preset-react`
+
+```json
+// .babelrc
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react"]
+}
+```
+
+
+
+**解析 css**
+
+`npm i -D style-loader css-loader`
+
+- css-loader 用于加载 .css 文件，并且转换成 commonjs 对象
+
+- style-loader 将样式通过 `<style>` 标签插入到 head 中
+
+- postcss-loader 添加厂商前缀, 使用 autoprefixer 插件 (后置处理器: 代码生成后再进行处理, can i use)
+
+  `npm i -D postcss-loader autoprefixer`
+
+  ```js
+  // 添加 postcss.config.js
+  module.exports = {
+    plugins: [
+      require("autoprefixer")({
+        browsers: ["last 2 version", ">1%", "ios 7"]
+      })
+    ]
+  };
+  
+  ```
+
+```js
+module.exports = {
+  ...,
+  module: {
+    // 多 loader 执行从右往左, 从下到上
+    rules: [{ test: /\.(css)$/, use: ["style-loader", "css-loader", "postcss-loader"] }]
+  },
+}
+```
+
+
+
+**解析 less**
+
+`npm i -D less less-loader`
+
+- less-loader 用于将 less 转换成 css
+
+```js
+module.exports = {
+  ...,
+  module: {
+    // 多 loader 执行从右往左
+    rules: [{ test: /\.(less)$/, use: ["style-loader", "css-loader", "postcss-loader", "less-loader"] }]
+  },
+}
+```
+
+
+
+**解析图片和字体**
+
+`npm i -D file-loader url-loader`
+
+- file-loader 用于处理文件
+- url-loaer 处理图片和字体，可以设置较小资源自动 base64
+
+```js
+module.exports = {
+  ...,
+  module: {
+    rules: [
+      { test: /\.(bmp|gif|jpeg|jpg|png|svg)$/, use: ["file-loader"] },
+      { test: /\.(eot|woff|ttf|woff2|otf)$/, use: ["file-loader"] }
+    ]
+  },
+}
+```
+
+```js
+module.exports = {
+  ...,
+  module: {
+    rules: [
+      { test: /\.(bmp|gif|jpeg|jpg|png|svg)$/, use: [
+    	{
+          loader: "url-loader",
+          options: { limit: 10240 }
+        }] 
+	  },
+      { test: /\.(eot|woff|ttf|woff2|otf)$/, use: [
+    	{
+          loader: "url-loader",
+          options: { limit: 10240 }
+        }] 
+	  }
+    ]
+  },
+}
+```
+
+注意：如果使用 url-loader 不配置 limit (字节)。虽然图片被打包进js里面，加载好js 图片自然就出来，它不用再去额外请求一个图片的地址了，省了一次http请求，但是带来的问题是什么呢？如果这个文件特别大，打包生成的js也会特别的大，那么你加载这个js的时间就会很长，那么url-loader的最佳使用方式是什么？如果图片非常小只有1-2kb，那么图片被打包进js文件是个非常好的选择，如果图片很大，那就应该像file-loader一样，把图片打包到dist目录下，不要打包到bundle.js里
+
+
+
+### 05.文件监听
+
+文件监听是在发现源码发生变化时，自动重新构建出新的输出文件，缺点是每次都需要手动刷新浏览器
+
+**开启方式**
+
+- 启动 webpack 命令时，带上 --watch 参数
+- 在配置 webpack.config.js 中设置 watch: true
+
+
+
+**原理分析**
+
+轮询判断文件的最后编辑时间是否变化
+
+某个文件发生了变化，并不会立即告诉监听者，而是先缓存起来，等 aggregateTimeout
+
+```js
+module.exports = {
+  // 默认 false，
+  watch: true,
+  // 开启监听模式后，watchOptions才有意义
+  watchOptions: {
+    // 默认为空，不监听的文件或文件夹，支持正则
+    ignored: /node_modules/,
+    // 监听到变化发生后会等300ms再去执行，默认300ms
+    aggregateTimeout: 300,
+    // 判断文件是否发生变化是通过不停轮询系统指定文件有没有变化实现的，默认每秒问1000次
+    poll: 1000
+  },
+}
+```
+
+
+
+### 06.热更新
+
+**使用热更新**
+
+1. webpack-dev-server
+
+   WDS 不刷新浏览器，不输出文件，而是放在内存中
+
+   添加 devServer 配合 `webpack.HotModuleReplacementPlugin` 插件
+
+   ```js
+   module.exports = {
+     ...,
+     plugins: [
+       new webpack.HotModuleReplacementPlugin()
+     ],
+     devServer: {
+       contentBase: './dist',
+       hot: true,
+       open: true,
+       port: 8888
+     }
+   };
+   ```
+
+2. webpack-dev-middleware
+
+   WDM 将 webpack 输出的文件传输给服务器，适用于灵活的定制场景
+
+**热更新的原理分析?** 见19节
+
+
+
+### 07.文件指纹策略
+
+1. 什么是文件指纹？
+
+   打包后输出的文件名的后缀，通常用来作为版本的管理
+
+2. 文件指纹如何生成？
+
+   **hash**：和整个项目的构建相关，只要项目文件有修改，整个项目构建的hash值就会更改
+
+   **chunkhash**：和 webpack 打包的 chunk 有关，不同的 entry 会生成不同的 chunkhush 值
+
+   **contenthash**：根据文件内容来定义 hash，文件内容不变，则 contenthash 不变 (常用于css文件)
+
+3. js 文件指纹设置
+
+   设置 output 的 filename，使用 [chunkhash]
+
+   ```js
+   module.exports = {
+     ...,
+     output: {
+       path: path.join(__dirname, "./dist"),
+       filename: "[name]_[chunkhash:8].js"
+     },
+   }
+   ```
+
+4. css 文件指纹设置
+
+   `npm i -D mini-css-extract-plugin`
+
+   设置 MiniCssExtractPlugin 的 filename，使用 [contenthash]
+
+   ```js
+   const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+   
+   module.exports = {
+     ...,
+     module: {
+       rules: [
+         { test: /\.(css)$/, use: [MiniCssExtractPlugin.loader, "css-loader"] },
+         {
+           test: /\.(less)$/,
+           use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"]
+         }
+       ]
+     },
+     plugins: [
+       new MiniCssExtractPlugin({
+         filename: "[name]_[contenthash:8].css"
+   	})
+     ]
+   };
+   ```
+
+5. 图片文件指纹设置
+
+   设置 file-loader 的 name，使用 [hash]
+
+   ```js
+   module.exports = {
+     ...,
+     module: {
+       rules: [
+         { test: /\.(bmp|gif|jpeg|jpg|png|svg)$/, use: [
+             {
+               loader: "file-loader",
+               options: {
+                 name: 'img/[name]_[hash:8].[ext]'
+               }
+             }
+           ]
+   	  }
+       ]
+     },
+   }
+   ```
+
+| 占位符名称    | 含义                          |
+| ------------- | ----------------------------- |
+| [ext]         | 资源后缀名                    |
+| [name]        | 文件名称                      |
+| [path]        | 文件的相对路径                |
+| [folder]      | 文件所在文件夹                |
+| [contenthash] | 文件的内容hash，默认是md5生成 |
+| [hash]        | 文件内容的hash，默认是md5生成 |
+| [emoji]       | 一个随机的纸袋文件内容的emoji |
+
+
+
+### 08.代码压缩
+
+1. js 压缩
+
+   内置了 uglifyjs-webpack-plugin，也可手动安装添加额外参数例如并行压缩
+
+2. css 压缩
+
+   使用 optimize-css-assets-webpack-plugin 和 cssnano
+
+   ```js
+   const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
+   
+   module.exports = {
+     ...,
+     plugins: [
+       new OptimizeCssAssetsWebpackPlugin({
+         assetNameRegExp: /\.css/g,
+         cssProcessor: require('cssnano')
+       })
+     ]
+   };
+   ```
+
+3. html 压缩
+
+   使用 html-webpack-plugin，设置压缩参数
+
+   ```js
+   const HtmlWebpackPlugin = require("html-webpack-plugin");
+   
+   module.exports = {
+     ...,
+     plugins: [
+       new HtmlWebpackPlugin({
+         template: path.join(__dirname, "./src/index.html"),
+         chunks: ['index'], // 引入的 js 模块
+         filename: "index.html",
+         inject: true,
+         title: 'ejs title', // 在 HTML 中用 ejs 语法 <%= htmlWebpackPlugin.options.title %> 生效
+         minify: {
+           html5: true,
+           collapseWhitespace: true,
+           preserveLineBreaks: false,
+           minifyCSS: true,
+           minifyJS: true,
+           removeComments: true, // 去掉注释
+           removeAttributeQuotes: true // 去掉引号
+         }
+       })
+     ]
+   };
+   ```
+
+
+
+## webpack 深入用法
+
+### 01.自动清理构建目录产物
+
+每次构建的时候不会清理目录，造成构建的输出目录 output 文件越来越多
+
+解决方法
+
+1. 通过 npm script 清理构建目录
+
+   - `rm -rf ./dist && webpack`
+   - `rimraf ./dist && webpack` 使用 npm 库解决不同端的命令
+
+2. 使用 clean-webpack-plugin 插件
+
+   默认会删除 output 指定的输出目录
+
+   ```js
+   // 注意 clean-webpack-plugin v3.0.0 使用解构方法引入
+   // v2.0.2 直接引入即可 const CleanWebpackPlugin = require('clean-webpack-plugin');
+   const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+   
+   module.exports = {
+     ...,
+     plugins: [
+       new CleanWebpackPlugin()
+     ]
+   };
+   ```
+
+
+
+### 02. 移动端 CSS px 自动转换成 rem
+
+W3C 对 rem 的定义：font-size of the root element
+
+rem 和 px 的对比：
+
+- rem 是相对单位
+- px 是绝对单位
+
+`npm i -D px2rem-loader` 
+
+`npm i lib-flexible` 页面渲染时计算根元素的 font-size 值
+
+```js
+module.exports = {
+  ...,
+  module: {
+    rules: [
+      {
+        test: /\.(css)$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"]
+      },
+      {
+        test: /\.(less)$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "postcss-loader",
+          "less-loader",
+          {
+            loader: "px2rem-loader",
+            options: {
+              remUnit: 75, // rem 相对于 px 的转换单位 1rem=75px
+              remPrecision: 8 // px 转换为 rem 后小数点位数
+            }
+          }
+        ]
+      }
+    ]
+  },
+}
+```
+
+
+
+### 03. 静态资源内联
+
+**资源内联的意义**
+
+**代码层面**：
+
+- 页面框架的初始化脚本
+- 上报相关打点
+- css 内联避免页面闪动
+
+请求层面：减少 HTTP 网络请求数
+
+- 小图片或者字体内联 (url-loader)
+
+`npm i -D raw-loader` 
+
+raw-loader
+
+- 内联 html `${ require('raw-loader!./meta.html') }`
+- 内联 js `<script>${ require('raw-loader!babel-loader!../node_modules/lib-flexible/flexible.js') }</script>`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    ${ require('raw-loader!./meta.html') }
+    <title><%= htmlWebpackPlugin.options.config.title %></title>
+    <script>
+      ${ require('raw-loader!babel-loader!../node_modules/lib-flexible/flexible.js') }
+    </script>
+  </head>
+  <body>
+    <!-- 六一节快乐 -->
+    <div id="root"></div>
+  </body>
+</html>
+
+```
+
+
+
+### 04. 多页面应用打包通用方案
+
+*(/* 生成的多个HTML怎么部署生成环境呢？ */)*
+
+**多页面应用 (MPA) 概念**
+
+每一次页面跳转的时候，后台服务器都会给返回一个新的 html 文档，这种类型的网站也就是多页网站，也叫多页应用。优点：1. 每个页面是解耦的；2. 对SEO更加友好
+
+**多页面打包基本思路：**
+
+每个页面对应一个entry，一个 html-webpack-plugin
+
+缺点：每次新增或删除页面需要改webpack 配置
+
+```js
+module.exports = {
+    entry: {
+        index: './src/index.js',
+        search: './src/search.js'
+    }
+}
+```
+
+**多页面打包通用方案：**
+
+动态获取 entry 和 设置 html-webpack-plugin 数量
+
+利用 glob.sync
+
+`entry: glob.sync(path.join(__dirname, './src/*/index.js'))`
+
+entryFile.match(/src\(.*)\/index\.js/)
+
+```js
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const glob = require("glob");
+
+const setMPA = () => {
+  const entry = {};
+  const htmlWebpackPlugins = [];
+
+  const entryFiles = glob.sync(path.join(__dirname, "../src/*/index.js"));
+
+  entryFiles.forEach(item => {
+    const match = item.match(/src\/(.*)\/index\.js/);
+    const pageName = match && match[1];
+    entry[pageName] = item;
+    htmlWebpackPlugins.push(
+      new HtmlWebpackPlugin({
+        config: {
+          title: pageName
+        },
+        chunks: [pageName], // 此处引用相应的js模块
+        template: path.join(__dirname, `../src/${pageName}/index.html`),
+        filename: `${pageName}.html`,
+        title: `${pageName} title`,
+        inject: true,
+        minify: {
+          html5: true,
+          collapseWhitespace: true,
+          preserveLineBreaks: false,
+          minifyCSS: true,
+          minifyJS: true,
+          removeComments: false,
+          removeAttributeQuotes: true
+        }
+      })
+    );
+  });
+
+  return {
+    entry,
+    htmlWebpackPlugins
+  };
+};
+const { entry, htmlWebpackPlugins } = setMPA();
+
+module.exports = merge(base, {
+  ...,
+  entry,
+  plugins: [...].concat(htmlWebpackPlugins)
+}
+```
+
+
+
+### 05. 使用 source map
+
+作用：通过 source map 定位到源代码
+
+开发环境开启，线上环境关闭( 线上排查问题的时候可以将 sourcemap 上传到错误监控系统 )
+
+**source map 关键字**
+
+- eval：使用 eval 包裹模块代码
+- source map：产生 .map 文件
+- cheap：不包含列信息
+- inline：将 .map 作为 DataURL 嵌入，不单独生成 .map 文件
+- module：包含loader 的 source map
+
+**source map 类型**
+
+| devtool                        | 首次构建速度 | 二次构建速度 | 是否适合prod | 可以定位的代码                     |
+| ------------------------------ | ------------ | ------------ | ------------ | ---------------------------------- |
+| (none)                         | +++          | +++          | y            | 最终输出的代码                     |
+| eval                           | +++          | +++          | n            | webpack生成的代码(一个个的模块)    |
+| cheap-eval-source-map          | +            | ++           | n            | 经过loader转换后的代码(只能看到行) |
+| cheap-module-source-map        | 0            | ++           | n            | 源代码(只能看到行)                 |
+| eval-source-map                | --           | +            | n            | 源代码                             |
+| cheap-source-map               | +            | 0            | y            | 经过loader转换后的代码(只能看到行) |
+| cheap-module-source-map        | 0            | -            | y            | 源代码(只能看到行)                 |
+| inline-cheap-source-map        | +            | 0            | n            | 经过loader转换后的代码(只能看到行) |
+| inline-cheap-module-source-map | 0            | -            | n            | 源代码(只能看到行)                 |
+| source-map                     | --           | --           | y            | 源代码                             |
+| inline-source-map              | --           | --           | n            | 源代码                             |
+| hidden-source-map              | --           | --           | y            | 源代码                             |
+
+`+++` 非常快速, `++` 快速, `+` 比较快, `o` 中等, `-` 比较慢, `--` 慢
+
+- 开发环境：  `devtool: "cheap-module-eval-source-map",`
+- 生产环境：null
+
+
+
+### 06. 提取页面公共资源
+
+**基础库分离** 提取后可用浏览器缓存减少请求
+
+思路：将 react、react-dom 基础包通过 cdn 引入，不打入 bundle 中
+
+- 方法一：使用 html-webpack-externals-plugin
+
+  ```js
+  // npm i -D html-webpack-externals-plugin
+  const HtmlWebpackExternalsPlugin = require("html-webpack-externals-plugin");
+  
+  module.exports = {
+    ...,
+    plugins: [
+      new HtmlWebpackExternalsPlugin({
+        externals: [
+          {
+            module: "react",
+            entry: "https://unpkg.com/react@16.8.6/umd/react.production.min.js",
+            global: "React"
+          },
+          {
+            module: "react-dom",
+            entry:
+              "https://unpkg.com/react-dom@16.8.6/umd/react-dom.production.min.js",
+            global: "ReactDOM"
+          }
+        ]
+      })
+    ]
+  };
+  ```
+
+  ```html
+  <!-- html 中引入 -->
+  <script src="https://unpkg.com/react@16.8.6/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.production.min.js"></script>
+  ```
+
+- 方法二：利用 SplitChunksPlugin 进行公共脚本分离( webpack4 内置的，替代 CommonsChunkPlugin )
+
+  ```js
+  // 抽离 react react-dom 等第三方库
+  module.exports = {
+    //...
+    plugins: [
+      new HtmlWebpackPlugin({
+        chunks: ["vendors", "commons", pageName] // 添加 vendors, commons
+      })
+    ],
+    optimization: {
+      splitChunks: {
+        minSize: 1000, // 抽离的公共包最小的大小(字节)
+        cacheGroups: {
+          vendors: {
+            test: /(react|react-dom)/,
+            name: 'vendors',
+            chunks: 'all'
+          },
+  		commons: {
+            name: "commons",
+            chunks: "all",
+            minChunks: 2
+          }
+        }
+      }
+    }
+  };
+  ```
+
+  ```js
+  // 官方例子
+  module.exports = {
+    //...
+    optimization: {
+      splitChunks: {
+        chunks: 'async', // 对异步or同步引入的进行分离，all 所有引入的库进行分离(推荐)
+        minSize: 30000, // 抽离的公共包最小的大小(字节)
+        maxSize: 0,
+        minChunks: 1, // 某一方法最小的引用的次数
+        maxAsyncRequests: 5, // 浏览器最大同时请求的数量
+        maxInitialRequests: 3,
+        automaticNameDelimiter: '~',
+        name: true,
+        cacheGroups: {
+          vendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true
+          }
+        }
+      }
+    }
+  };
+  ```
+
+
+
+### 07. tree shaking(摇树优化)
+
+**概念：**1个模块可能有多个方法，只要其中的某个方法使用到了，则整个文件都会被打到 bundle 里面去，tree shaking 就是只把用到的方法打入 bundle，没用到的方法会在 uglify 阶段被擦除掉
+
+**使用：**webpack4 默认支持，production mode 默认开启
+
+**要求：**必须是 ES6 的语法，CJS 的方式不支持
+
+**原理：**
+
+- DEC (dead code elimination)
+  - 代码不会被执行，不可到达
+  - 代码执行的结果不会被用到
+  - 代码只会影响死变量( 只写不读)
+
+- 利用 es6 模块的特性：
+  - 只能作为模块顶层的语句出现
+  - import 的模块名只能是字符串常量
+  - import binding 是 immutable的
+
+- 代码擦除：uglify 阶段删除无用代码
+
+
+
+### 08. Scope Hoisting(作用域提升)
+
+**现象：**构建后的代码存在大量闭包代码
+
+**使用：**webpack4 默认支持，production mode 默认开启
+
+**要求：**必须是 ES6 的语法，CJS 的方式不支持
+
+**原理：** 分析出模块之间的依赖关系，尽可能的把打散的模块合并到一个函数中去，但前提是不能造成代码冗余。 因此只有那些被引用了一次的模块才能被合并。
+
+**好处：** 
+
+- 代码体积更小，因为函数申明语句会产生大量代码；
+- 代码在运行时因为创建的函数作用域更少了，内存开销也随之变小。
+
+
+
+### 09. 代码分割和动态import
+
+**代码分割的意义**：对于大的 web 应用来讲，将所有的代码都放在一个文件中显然是不够有效的，特别是当你的某些代码块是在某些特殊的时候才会被使用到。webpack 有一个功能就是将你的代码库分割成 chunks (语块)，当代码运行到需要它们的时候再进行加载。
+
+**使用的场景**：抽离相同代码到一个共享块；脚本懒加载，使得初始下载的代码更小
+
+**懒加载 js 脚本的方式**：
+
+- CommonJS：require.ensure
+- Es6：动态 import (目前还没有原生支持，需要 babel 转换)
+
+**动态 import**
+
+```json
+// npm i -D @babel/plugin-syntax-dynamic-import
+// .babelrc
+{
+    "plugins": ["@babel/plugin-syntax-dynamic-import"]
+}
+```
+
+```js
+// testImport.js
+import React from "react";
+export default () => <div>动态 import</div>;
+
+// index.js
+class Index extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      Text: null
+    };
+  }
+  loadComponent() {
+    import("./testImport").then(Text => {
+      this.setState({ Text: Text.default });
+    });
+  }
+  render() {
+    const { Text } = this.state;
+    return (
+      <div>
+        <p onClick={this.loadComponent.bind(this)}>点击我动态加载</p>
+        {Text && <Text />}
+      </div>
+    );
+  }
+}
+```
+
+
+
+### 10. Webpack 配合 eslint
+
+- Airbnb：eslint-config-airbnb、eslint-config-airbnb-base
+
+
+
+### 11. Webpack 打包库和组件
+
+webpack 除了可以打包应用，也可以用来打包 js 库，支持 ES module，CJS，AMD
+
+library：指定库的全局变量
+
+libraryTarget：指定库的引入方式
+
+```js
+// /src/index.js
+export default function add(a, b) {
+  let i = a.length - 1;
+  let j = b.length - 1;
+
+  let carry = 0;
+  let ret = "";
+  while (i >= 0 || j >= 0) {
+    let x = 0;
+    let y = 0;
+    let sum;
+    if (i >= 0) {
+      x = a[i] - "0";
+      i--;
+    }
+    if (j >= 0) {
+      y = b[j] - "0";
+      j--;
+    }
+    sum = x + y + carry;
+    if (sum >= 10) {
+      carry = 1;
+      sum -= 10;
+    } else {
+      carry = 0;
+    }
+    // 第一次 0 + ''
+    ret = sum + ret;
+  }
+  if (carry) {
+    ret = carry + ret;
+  }
+  return ret;
+}
+```
+
+```js
+// /index.js
+if (process.env.NODE_ENV == "production") {
+  module.exports = require("./dist/large-number.min.js");
+} else {
+  module.exports = require("./dist/large-number.js");
+}
+```
+
+```json
+// /package.json
+{
+  "name": "large-number-add",
+  "version": "1.0.0",
+  "description": "Large integer addition",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "prepublish": "webpack"
+  },
+  "keywords": [],
+  "author": "xiaoxin",
+  "license": "ISC",
+  "devDependencies": {
+    "terser-webpack-plugin": "^1.3.0",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5"
+  }
+}
+```
+
+```js
+// /webpack.config.js
+const TerserPlugin = require("terser-webpack-plugin");
+module.exports = {
+  mode: "none",
+  entry: {
+    "large-number": "./src/index.js",
+    "large-number.min": "./src/index.js"
+  },
+  output: {
+    filename: "[name].js",
+    library: "largeNumber",
+    libraryTarget: "umd",
+    libraryExport: "default"
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        include: /\.min\.js$/
+      })
+    ]
+  }
+};
+```
+
+
+
+**npm**
+
+- 发布 npm publish
+- 更新 npm version patch
+  - patch：小变动，比如修复bug等，版本号变动 **v1.0.0->v1.0.1**
+  - minor：增加新功能，不影响现有功能,版本号变动 **v1.0.0->v1.1.0**
+  - major：破坏模块对向后的兼容性，版本号变动 **v1.0.0->v2.0.0**
+- 弃用 npx force-unpublish large-number-1st 'test delete'
+- 删除 npm unpublish large-number-1st --force 
+
+
+
+### 12. webpack 实现 ssr 打包
+
+34 ~ 35
+
+
+
+### 13.优化构建时命令行的显示日志
+
+```js
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+
+module.exports = {
+  ...,
+  plugins: [
+    ...,
+    new FriendlyErrorsWebpackPlugin()
+  ],
+  stats: "errors-only",
+  devServer: {
+	...,
+    stats: "errors-only"
+  }
+};
+```
+
+
+
+### 14.构建异常和中断处理
+
+如何判断构建是否成功？
+
+在 CI/CD 的 pipline 或者发布系统需要知道当前构建状态
+
+每次构建完成后输入 `echo $?` 获取错误码
+
+Node.js 中 process.exit 规范
+
+- 0 表示成功完成
+- 非 0 表示失败
+
+```js
+module.exports = {
+  ...,
+  plugins: [
+    ...,
+    function() {
+      this.hooks.done.tap("done", stats => {
+        if (
+          stats.compilation.errors &&
+          stats.compilation.errors.length &&
+          process.argv.indexOf("--watch") == -1
+        ) {
+          console.log("build error!!!");
+          process.exit(1);
+        }
+      });
+    },
+  ],
+};
+```
+
+可在命令行输入 `echo $?` 拿到 errno 为 1 进而进行上报错误日志等操作
+
+
+
+## 编写可维护的 webpack 构建配置
+
+**构建配置抽离成 npm 包的意义**
+
+通用性
+
+- 业务开发者无需关注构建配置
+- 统一团队构建脚本
+
+可维护性
+
+- 构建配置合理的拆分
+- README 文档、changeLog 文档等
+
+质量
+
+- 冒烟测试、单元测试、测试覆盖率
+- 持续集成
+
+
+
+**构建配置管理的可选方案**
+
+- 通过多个配置文件管理不同环境的构建，webpack --config 参数进行控制
+- 将构建配置设计成一个库，比如：hjs-webpack、neutrino、webpack-blocks
+- 抽成一个工具进行管理，比如：create-react-app，kyt，nwb
+- 将所有的配置放在一个文件，通过 --env 参数控制分支选择
+
+
+
+## Git 规范和 changelog 生成
+
+> 良好的 git commit 规范优势：
+>
+> - 加快 code review 的流程
+> - 根据 git commit 的元数据生成 changelog
+> - 后续维护者可以知道 feature 被修改的原因
+
+### 技术方案
+
+**Git提交格式**
+
+1. 统一团队Git commit 日志标准，便于后续代码review和版本发布
+2. 使用angular的git commit 日志作为基本规范
+   - 提交类型限制为：feat, fix, docs, style, refactor, perf, test, chore, revert等
+   - 提交信息分为两部分，标题(首字母不大写，末尾不要标点)、主题内容(正常的描述信息即可)
+3. 日志提交时友好的类型选择提示 --- 使用commitize 工具
+4. 不符合要求格式的日志拒绝提交的保障机制
+   - 使用validate-commit-msg 工具
+   - 需要同时在客户端、gitlab server hook做
+5. 统一 changelog 文档信息生成 --- 使用conventional-changelog-cli 工具
+
+**格式要求**
+
+```
+<type>(<scope>): <subject>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
+```
+
+对格式的说明如下：
+
+- type代表某次提交的类型，比如是修复一个bug还是增加一个新的feature。所有的type类型如下：
+- feat：新增feature
+- fix：修复bug
+- docs：仅仅修改了文档，比如README, CHANGELOG等
+- style：仅仅修改了空格，格式缩进，不改变代码逻辑
+- refactor：代码重构，没有加新功能或者修复bug
+- perf：优化相关，比如提升性能，体验
+- test：测试用例，包括单元测试，集成测试等
+- chore：改变构建流程、或者增加依赖库、工具等
+- revert：回滚到上一个版本
+
+**本地开发阶段配置**
+
+安装依赖
+
+`npm i @commitlint/cli @commitlint/config-conventional commitizen cz-conventional-changelog husky -D`
+
+```json
+{
+  "scripts": {
+    "commit": "git add -A && git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.0.2",
+    "husky": "^3.0.1"
+  }
+}
+
+```
+
+如果最后产生一个这样的错误：
+
+```sh
+Error: Could not resolve /Users/Elite/web/node_modules/cz-conventional-changelog. 
+Cannot find module '/Users/Elite/web/node_modules/cz-conventional-changelog'
+```
+
+只需做个软连接即可：
+
+```sh
+ln -s /Users/Elite/node_modules /Users/Elite/web/node_modules
+```
+
+或者改变 package.json
+
+```json
+"config": {
+    "commitizen": {
+        "path": "./web/Public/static/node_modules/cz-conventional-changelog"
+    }
+},
+```
+
+
+
+## 速度和大小分析
+
+使用 speed-measure-webpack-plugin 和 webpack-bundle-analyzer
+
+`npm i -D speed-measure-webpack-plugin webpack-bundle-analyzer`
+
+```js
+const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
+const smp = new SpeedMeasureWebpackPlugin()
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+
+new BundleAnalyzerPlugin(),
+
+module.exports = smp.wrap(exportObj)
+```
+
+
+
+## 多进程多实例构建
+
+
+
+## 多进程多实例并行压缩
+
+`npm i -D terser-webpack-plugin`
+
+```js
+const TerserPlugin = require("terser-webpack-plugin");
+
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: false
+      })
+    ]
+  },
+```
+
+
+
+## 利用缓存提升二次构建
+
+`npm i -D terser-webpack-plugin hard-source-webpack-plugin`
+
+```js
+const TerserPlugin = require('terser-webpack-plugin')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+
+loaders: ['babel-loader?cacheDirectory=true'],
+optimization: {
+    minimizer: [
+        new TerserPlugin({
+            parallel: true,
+            cache: true,
+        }),
+    ],
+},
+plugins: [
+  new HardSourceWebpackPlugin()
+]
+```
+
+
+
+## 图片压缩
+
+`npm i -D image-webpack-loader`
+
+```js
+rules: [{
+  test: /\.(gif|png|jpe?g|svg)$/i,
+  use: [
+    'file-loader',
+    {
+      loader: 'image-webpack-loader',
+      options: {
+        mozjpeg: {
+          progressive: true,
+          quality: 65
+        },
+        // optipng.enabled: false will disable optipng
+        optipng: {
+          enabled: false,
+        },
+        pngquant: {
+          quality: '65-90',
+          speed: 4
+        },
+        gifsicle: {
+          interlaced: false,
+        },
+        // the webp option will enable WEBP
+        webp: {
+          quality: 75
+        }
+      }
+    },
+  ],
+}]
+```
+
+
+
+## 使用 tree shaking 擦除无用的css
+
+`npm i -D purgecss-webpack-plugin`
+
+```js
+const path = require('path')
+const glob = require('glob')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const PurgecssPlugin = require('purgecss-webpack-plugin')
+
+		new PurgecssPlugin({
+      paths: glob.sync(`${PATHS.src}/**/*`,  { nodir: true }),
+    }),
+```
+
