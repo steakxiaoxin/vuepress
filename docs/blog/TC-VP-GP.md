@@ -1,3 +1,18 @@
+---
+title: TC-VP-GP
+date: 2019-11-11
+sidebar: "auto"
+categories:
+  - blog
+#  - blog
+tags:
+  - deploy
+  - fe
+keys:
+  - "bixin"
+# publish: false
+---
+
 # TC-VP-GP
 
 

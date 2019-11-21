@@ -1,8 +1,21 @@
 ---
 home: true
 heroImage: /avatar.jpeg
+faceImage: '/avatar.jpeg'
+bgImage: '/bg.jpg'
 actionText: 盘就完了 →
 actionLink: /blog/
+isShowTitleInHome: false
+bgImageStyle: {
+  # height: '350px'
+}
+heroImageStyle: {
+  maxHeight: '200px',
+  display: block,
+  margin: '6rem auto 1.5rem',
+  borderRadius: '50%',
+  boxShadow: '0 5px 18px rgba(0,0,0,0.2)'
+}
 features:
   # - title: 简洁至上
   #   details: 以 Markdown 为中心的项目结构，以最少的配置帮助你专注于写作。

@@ -1,3 +1,18 @@
+---
+title: webpack小记
+date: 2019-11-08
+sidebar: "auto"
+categories:
+  - blog
+#  - blog
+tags:
+  - webpack
+  - fe
+keys:
+  - "bixin"
+# publish: false
+---
+
 # webpack小记
 
 > 为什么要使用构建工具?

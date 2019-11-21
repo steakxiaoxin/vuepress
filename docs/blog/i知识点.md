@@ -1,3 +1,18 @@
+---
+title: 知识点
+date: 2019-11-07
+sidebar: "auto"
+categories:
+  - blog
+#  - blog
+tags:
+  - tips
+  - fe
+keys:
+  - "bixin"
+publish: false
+---
+
 # i 知识点
 
 ✅ 已收录
