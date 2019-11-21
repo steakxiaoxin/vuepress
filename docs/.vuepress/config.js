@@ -7,6 +7,12 @@ module.exports = {
   plugins: [
     "go-top",
     [
+      "@vuepress/register-components",
+      {
+        componentsDir: "./components"
+      }
+    ],
+    [
       "ribbon",
       {
         size: 100, // 彩带的宽度，默认为 90
@@ -79,7 +85,7 @@ module.exports = {
         "几个实例回顾",
         "几道代码题",
         "前端性能优化方案",
-        'html和css相关',
+        "html和css相关",
         "webpack小记"
       ],
       "/other/": ["", "TC-VP-GP"],

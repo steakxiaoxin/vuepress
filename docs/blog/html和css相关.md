@@ -16,7 +16,7 @@ BFC 全称为块级格式化上下文 (Block Formatting Context) 。它决定了
 - 内部的盒会在垂直方向一个接一个排列（可以看作 BFC 中有一个的常规流）垂直方向外边距重叠
 - BFC 就是页面上的一个独立容器，容器里面的子元素不会影响到外面的元素
 - 计算 BFC 的高度时，浮动元素也参与计算
-- [BFC 区域不会与浮动元素重叠](https://zhidao.baidu.com/question/1050642522648545939.html) 
+- [BFC 区域不会与浮动元素重叠](https://zhidao.baidu.com/question/1050642522648545939.html)
 
 ### 触发 BFC 的条件
 
@@ -33,3 +33,6 @@ BFC 全称为块级格式化上下文 (Block Formatting Context) 。它决定了
 - margin 塌陷 (子元素 margin-top 溢出)
 - margin 合并 (重叠盒子外再套一层 bfc)
 - 自适用两列布局（`float` + `overflow`）原理：BFC 区域不会与浮动元素重叠
+
+<br/>
+<Valine></Valine>
