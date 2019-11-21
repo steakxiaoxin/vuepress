@@ -36,6 +36,7 @@
 ## js基础
 - call apply bind✅
 - deep clone✅
+
 1. 作用域链
 2. 原型链
 3. 闭包
