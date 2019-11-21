@@ -297,6 +297,8 @@ plugins: [
 #### 5.在[控制台](https://leancloud.cn/)的存储class中管理数据
 
 
+### [使用主题](https://vuepress-theme-reco.recoluan.com/)
+
 
 ### 支持emoji
 
