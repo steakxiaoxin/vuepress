@@ -21,7 +21,7 @@ notifications:
 deploy:
   provider: pages
   skip-cleanup: true
-  local_dir: vp
+  local_dir: vp # dist
   github-token: $GITHUB_TOKEN # Set in the settings page of your repository, as a secure variable
   repo: steakxiaoxin/vp
   keep-history: true
