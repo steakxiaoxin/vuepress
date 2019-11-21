@@ -3,7 +3,7 @@ module.exports = {
   description: "现在是个前端",
   dest: "./dist",
   port: "8888",
-  base: "/vuepress/",
+  base: "/vp/",
   plugins: [
     "go-top",
     [
