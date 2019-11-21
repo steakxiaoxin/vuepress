@@ -279,6 +279,8 @@ plugins: [
 <Valine></Valine>
 ```
 
+#### 5.在[控制台](https://leancloud.cn/)的存储class中管理数据
+
 
 
 ### 支持emoji
