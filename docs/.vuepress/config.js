@@ -1,7 +1,7 @@
 module.exports = {
   title: "新",
   description: "现在是个前端",
-  dest: "./dist",
+  dest: "./vp",
   port: "8888",
   base: "/vp/",
   plugins: [
