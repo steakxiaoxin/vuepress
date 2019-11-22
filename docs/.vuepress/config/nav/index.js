@@ -8,7 +8,7 @@ module.exports = [
     icon: "reco-message",
     items: [
       {
-        text: "去老毕那儿",
+        text: "老毕",
         link: "https://zwaq.top",
         icon: "reco-toutiao"
       }
