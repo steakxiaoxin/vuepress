@@ -1,8 +1,8 @@
 {
-  "name": "vuepress",
+  "name": "vp",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:steakxiaoxin/vuepress.git",
+  "repository": "git@github.com:steakxiaoxin/vp.git",
   "author": "xiaoxin <steak_xiaoxin@qq.com>",
   "license": "MIT",
   "scripts": {

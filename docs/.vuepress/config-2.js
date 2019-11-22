@@ -29,9 +29,9 @@ module.exports = {
     [
       "dynamic-title",
       {
-        showIcon: "/vuepress/favicon.ico",
+        showIcon: "/vp/favicon.ico",
         showText: "(/≧▽≦/)来啦老弟！",
-        hideIcon: "/vuepress/favicon.ico",
+        hideIcon: "/vp/favicon.ico",
         hideText: "(-.-)给朕肥来！",
         recoverTime: 2000
       }
