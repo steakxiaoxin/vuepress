@@ -1,3 +1,5 @@
+// icon: https://vuepress-theme-reco.recoluan.com/views/1.x/configJs.html#%E5%9B%BE%E6%A0%87
+
 module.exports = [
   { text: "首页", link: "/", icon: "reco-home" },
   { text: "时间轴", link: "/timeline/", icon: "reco-date" },
@@ -6,9 +8,9 @@ module.exports = [
     icon: "reco-message",
     items: [
       {
-        text: "Baidu",
-        link: "www.baidu.com",
-        icon: "reco-github"
+        text: "去老毕那儿",
+        link: "https://zwaq.top",
+        icon: "reco-other"
       }
       // { text: 'NPM', link: 'https://www.npmjs.com/~reco_luan', icon: 'reco-npm' },
       // { text: 'GitHub', link: 'https://github.com/recoluan', icon: 'reco-github' },

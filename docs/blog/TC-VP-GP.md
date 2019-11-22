@@ -1,6 +1,6 @@
 ---
 title: TC-VP-GP
-date: 2019-11-11
+date: 2019-11-01
 sidebar: "auto"
 categories:
   - blog
