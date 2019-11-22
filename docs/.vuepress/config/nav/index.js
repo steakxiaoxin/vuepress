@@ -10,7 +10,7 @@ module.exports = [
       {
         text: "去老毕那儿",
         link: "https://zwaq.top",
-        icon: "reco-other"
+        icon: "reco-toutiao"
       }
       // { text: 'NPM', link: 'https://www.npmjs.com/~reco_luan', icon: 'reco-npm' },
       // { text: 'GitHub', link: 'https://github.com/recoluan', icon: 'reco-github' },
