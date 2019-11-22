@@ -11,6 +11,7 @@
     "deploy": "sh deploy.sh"
   },
   "devDependencies": {
+    "@vuepress-reco/vuepress-plugin-kan-ban-niang": "^1.0.3",
     "vuepress-plugin-clean-urls": "^1.0.3",
     "vuepress-plugin-dynamic-title": "^0.0.5",
     "vuepress-plugin-go-top": "^0.0.1",

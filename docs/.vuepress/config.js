@@ -1,22 +1,43 @@
-const themeConfig = require('./config/theme/')
+const themeConfig = require("./config/theme/");
 
 module.exports = {
   title: "新",
-  description: '现在是个前端',
-  dest: './vp',
+  description: "现在是个前端",
+  dest: "./vp",
   port: "8888",
   base: "/vp/",
   head: [
-    ['link', { rel: 'icon', href: '/favicon.ico' }], // 增加一个自定义的 favicon(网页标签的图标)
-    ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
+    ["link", { rel: "icon", href: "/favicon.ico" }], // 增加一个自定义的 favicon(网页标签的图标)
+    [
+      "meta",
+      {
+        name: "viewport",
+        content: "width=device-width,initial-scale=1,user-scalable=no"
+      }
+    ]
   ],
-  theme: 'reco',
+  theme: "reco",
   themeConfig,
   markdown: {
     lineNumbers: true // 代码块显示行号
   },
-  // plugins: ['@vuepress/medium-zoom', 'flowchart'] 
+  // plugins: ['@vuepress/medium-zoom', 'flowchart']
   plugins: [
+    ["@vuepress-reco/back-to-top", false],
+    [
+      "@vuepress-reco/vuepress-plugin-kan-ban-niang",
+      {
+        theme: ["blackCat"],
+        clean: true,
+        modelStyle: {
+          position: "fixed",
+          right: "150px",
+          bottom: "70px",
+          opacity: "0.8",
+          zIndex: 99999
+        }
+      }
+    ],
     "go-top",
     [
       "@vuepress/register-components",
@@ -51,5 +72,5 @@ module.exports = {
         notFoundPath: "/404.html"
       }
     ]
-  ],
-}  
+  ]
+};

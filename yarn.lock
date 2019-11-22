@@ -891,6 +891,11 @@
   resolved "https://registry.yarnpkg.com/@vuepress-reco/vuepress-plugin-ga/-/vuepress-plugin-ga-1.0.2.tgz#3cab6b24ca66d383d585276517a01c98578f7821"
   integrity sha512-x0pIksY6r87ge7j3doX7+A76f5vSQe6gDiWv/4nhimvcUi4crnK4LPPA2sFgVUek2tPrvB34rseqR1cpsWgi6Q==
 
+"@vuepress-reco/vuepress-plugin-kan-ban-niang@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@vuepress-reco/vuepress-plugin-kan-ban-niang/-/vuepress-plugin-kan-ban-niang-1.0.3.tgz#0bd2c4cab492e33f1f609d2b66b525a9f5b58bd0"
+  integrity sha512-yykZfN4Hcr9DLdxSG+KcxEEPrvA9RpcDd3gFGrRumeyCvMRAmqqpkGx03tID4wExIr13q1RWLH6dGINNQ0H8nQ==
+
 "@vuepress-reco/vuepress-plugin-loading-page@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@vuepress-reco/vuepress-plugin-loading-page/-/vuepress-plugin-loading-page-1.0.0.tgz#6f4412e303e1c4e150889eee8f7e86fffc88de07"
