@@ -16,7 +16,7 @@ module.exports = {
   // 作者
   author: '新',
   // 备案号
-  // record: '京ICP备17067634号-1',
+  record: '浙ICP备19049160号-1',
   // 项目开始时间
   startYear: '2019'
 }

@@ -21,7 +21,7 @@ module.exports = {
   markdown: {
     lineNumbers: true // 代码块显示行号
   },
-  // plugins: ['@vuepress/medium-zoom', 'flowchart']
+  // plugins: ['flowchart']
   plugins: [
     ["@vuepress-reco/back-to-top", false],
     [
@@ -38,6 +38,7 @@ module.exports = {
         }
       }
     ],
+    '@vuepress/medium-zoom',
     "go-top",
     [
       "@vuepress/register-components",
