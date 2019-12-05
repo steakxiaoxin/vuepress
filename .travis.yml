@@ -14,9 +14,9 @@ install:
   - npm install vuepress-theme-reco@latest
 script:
   - npm run build
-cache:
-  directories:
-    - "node_modules"
+# cache:
+#   directories:
+#     - "node_modules"
 notifications:
   email: false
 deploy:
