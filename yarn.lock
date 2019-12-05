@@ -7577,10 +7577,10 @@ vuepress-plugin-smooth-scroll@^0.0.3:
   dependencies:
     smoothscroll-polyfill "^0.4.3"
 
-vuepress-theme-reco@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-reco/-/vuepress-theme-reco-1.1.4.tgz#ee26df04ff9e1767cb4a3d6207a34b355efc3d65"
-  integrity sha512-YqMdWugAThmm7bIrqqJddR7++KAUDGGQSMzvP9wm7X7IHTE+pPO3g6hwbSOXioe7p8U4Rr2lvO1iFY2znrf/cg==
+vuepress-theme-reco@1.2.0-alpha.1:
+  version "1.2.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-reco/-/vuepress-theme-reco-1.2.0-alpha.1.tgz#666e8a62f453140c5d46340a531e2e85ac70f93d"
+  integrity sha512-LuDOm0hHexiNtvM1nAzL6oiMJlUAoP/1hrDG9ypckTXt5t2mgO26A5O5lDfHuqXT4B53xrkhQlL397erV1iuBg==
   dependencies:
     "@vuepress-reco/vuepress-plugin-back-to-top" "^1.0.5"
     "@vuepress-reco/vuepress-plugin-comments" "^1.0.8"
