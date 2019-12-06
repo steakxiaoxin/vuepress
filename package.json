@@ -27,7 +27,7 @@
   },
   "husky": {
     "hooks": {
-      "post-push": "yarn bixin"
+      "pre-push": "yarn bixin"
     }
   }
 }
