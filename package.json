@@ -10,7 +10,7 @@
     "build": "vuepress build docs",
     "deploy": "sh deploy.sh",
     "bixin": "yarn build && sh scp.sh",
-    "pre-push": "yarn bixin"
+    "prepush": "yarn bixin"
   },
   "devDependencies": {
     "@vuepress-reco/vuepress-plugin-kan-ban-niang": "^1.0.3",
