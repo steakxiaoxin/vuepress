@@ -9,11 +9,11 @@
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
     "deploy": "sh deploy.sh",
-    "bixin": "yarn build && sh scp.sh"
+    "bixin": "yarn build && sh scp.sh",
+    "pre-push": "yarn bixin"
   },
   "devDependencies": {
     "@vuepress-reco/vuepress-plugin-kan-ban-niang": "^1.0.3",
-    "husky": "^3.1.0",
     "vuepress-plugin-clean-urls": "^1.0.3",
     "vuepress-plugin-dynamic-title": "^0.0.5",
     "vuepress-plugin-go-top": "^0.0.1",
@@ -24,10 +24,5 @@
     "valine": "^1.3.10",
     "vuepress": "^1.2.0",
     "vuepress-theme-reco": "1.2.0-alpha.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn bixin"
-    }
   }
 }
