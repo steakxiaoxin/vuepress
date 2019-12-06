@@ -9,7 +9,7 @@ tags:
   - deploy
   - fe
 keys:
-  - "bixin"
+# - "bixin"
 # publish: false
 ---
 
@@ -30,7 +30,7 @@ keys:
 
 ## 一、安装 vuepress
 
-### 项目初始化
+### 1. 项目初始化
 
 ```bash
 # 全局安装VuePress
@@ -55,7 +55,7 @@ touch README.md
 touch config.js && mkdir public
 ```
 
-### 项目目录形如
+### 2. 项目目录形如
 
 ```js
 .
@@ -78,7 +78,7 @@ touch config.js && mkdir public
 └── package.json
 ```
 
-### 启动和构建
+### 3. 启动和构建
 
 1. 在 package.json 中添加命令
 
@@ -103,7 +103,7 @@ yarn dev # 或者：npm run dev
 yarn build # 或者：npm run build
 ```
 
-### 插件及主题
+### 4. 插件及主题
 [awesome-vuepress](https://github.com/vuepressjs/awesome-vuepress)
 
 #### 1.安装依赖
@@ -132,7 +132,7 @@ module.exports = {
 
 
 
-### 基本配置
+### 5. 基本配置
 
 #### 1. Config.js
 
@@ -216,7 +216,7 @@ footer: MIT Licensed | Copyright © 2018-present Evan You
 ---
 ```
 
-### 添加评论
+### 6. 添加评论
 
 #### 1.安装依赖
 
@@ -297,10 +297,10 @@ plugins: [
 #### 5.在[控制台](https://leancloud.cn/)的存储class中管理数据
 
 
-### [使用主题](https://vuepress-theme-reco.recoluan.com/)
+### 7. [使用主题](https://vuepress-theme-reco.recoluan.com/)
 
 
-### 支持emoji
+### 8. 支持emoji
 
 [emoji列表](https://gist.github.com/rxaviers/7360908)
 
@@ -308,11 +308,11 @@ plugins: [
 
 ## 二、发布到 gh-pages
 
-### 设置 Source
+### 1. 设置 Source
 
 GitHub 项目 Settings 下 GitHub Pages 的 Source 设置为 **gh-pages** 分支
 
-### 添加命令
+### 2. 添加命令
 
 ```json
 {
@@ -324,7 +324,7 @@ GitHub 项目 Settings 下 GitHub Pages 的 Source 设置为 **gh-pages** 分支
 }
 ```
 
-### 添加发布脚本
+### 3. 添加发布脚本
 
 在根目录下，创建一个`deploy.sh`文件
 
@@ -357,7 +357,7 @@ git commit -m 'deploy'
 cd -
 ```
 
-### 部署
+### 4. 部署
 
 ```sh
 yarn deploy # 或者：npm run deploy
@@ -369,7 +369,7 @@ yarn deploy # 或者：npm run deploy
 
 ## 三、使用 Travis-CI
 
-### 步骤
+### 1. 步骤
 
 1. 在项目根目录添加 .travis.yml
 
@@ -379,7 +379,7 @@ yarn deploy # 或者：npm run deploy
 
 4. commit 后 push 即可观察travis服务器日志
 
-### 配置文件
+### 2. 配置文件
 
 .travis.yml
 
@@ -420,9 +420,38 @@ deploy:
 
 ## 四、更新远程服务器内文件
 
-1.安装依赖钩子
+### 1. 安装依赖husky
 
 `yarn add husky -D`
+
+### 2. 编写推送脚本scp.sh
+
+```sh
+#!/usr/bin/env sh
+# 删除
+ssh root@xxx.xxx.xxx.xxx rm -r -f /root/blog
+# 拷贝本地至远程
+scp -r vp root@xxx.xxx.xxx.xxx:/root/blog
+```
+
+### 3. 修改package.json
+
+```json
+{
+  "scripts": {
+    "scp": "yarn build && sh scp.sh"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn scp"
+    }
+  }
+}
+```
+
+### 4. 推送并部署
+
+`git push`
 
 ## 五、持续输出吧~
 
