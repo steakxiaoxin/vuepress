@@ -3,11 +3,9 @@ title: webpack小记
 date: 2019-10-19
 sidebar: "auto"
 categories:
-  - blog
-#  - blog
+  - front-end
 tags:
   - webpack
-  - fe
 keys:
   - "bixin"
 # publish: false

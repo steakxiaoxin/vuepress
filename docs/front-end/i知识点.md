@@ -3,11 +3,9 @@ title: 知识点
 date: 2019-11-07
 sidebar: "auto"
 categories:
-  - blog
-#  - blog
+  - front-end
 tags:
   - tips
-  - fe
 keys:
   - "bixin"
 publish: false
@@ -75,6 +73,7 @@ publish: false
 
 vue
 
+1. key 属性的作用和重要性
 1. MVVM 虚拟 dom 双向数据绑定
 2. computed 和 watch (区别 和 内部实现)
 3. 组件通信 (父子、兄弟、隔代)

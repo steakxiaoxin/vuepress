@@ -3,11 +3,9 @@ title: TC-VP-GP
 date: 2019-11-01
 sidebar: "auto"
 categories:
-  - blog
-#  - blog
+  - front-end
 tags:
   - deploy
-  - fe
 keys:
 # - "bixin"
 # publish: false

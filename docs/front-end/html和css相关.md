@@ -3,11 +3,9 @@ title: html 和 css 相关
 date: 2019-11-06
 sidebar: "auto"
 categories:
-  - blog
-#  - blog
+  - front-end
 tags:
   - html&css
-  - fe
 keys:
   - "bixin"
 # publish: false
