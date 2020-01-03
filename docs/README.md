@@ -8,7 +8,7 @@ actionText: 盘就完了 →
 actionLink: /blog/
 isShowTitleInHome: false
 bgImageStyle: {
-  # height: '350px'
+  height: '400px'
 }
 heroImageStyle: {
   maxHeight: '200px',
