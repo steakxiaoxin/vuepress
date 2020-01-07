@@ -21,7 +21,6 @@ module.exports = {
   markdown: {
     lineNumbers: true // 代码块显示行号
   },
-  // plugins: ['flowchart']
   plugins: [
     ["@vuepress-reco/back-to-top", false],
     [
@@ -38,7 +37,6 @@ module.exports = {
         }
       }
     ],
-    '@vuepress/medium-zoom',
     "go-top",
     [
       "@vuepress/register-components",
@@ -72,6 +70,12 @@ module.exports = {
         indexSuffix: "/",
         notFoundPath: "/404.html"
       }
-    ]
+    ],
+    [
+      "@vuepress/medium-zoom",
+      {
+        selector: ".theme-reco-content img"
+      }
+    ],
   ]
 };
