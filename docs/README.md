@@ -1,15 +1,15 @@
 ---
 home: true
-# heroImage: /avatar.jpeg
+heroImage: /avatar.jpeg
 bgImage: https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture
 actionText: 盘就完了 →
 actionLink: /blog/
 isShowTitleInHome: false
 bgImageStyle: {
-  height: '100px'
+  height: '400px'
 }
 heroImageStyle: {
-  maxHeight: '200px',
+  maxHeight: '100px',
   display: block,
   margin: '6rem auto 1.5rem',
   borderRadius: '50%',

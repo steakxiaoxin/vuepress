@@ -3,7 +3,7 @@ const nav = require('../nav/')
 const sidebar = require('../sidebar/')
 
 module.exports = Object.assign({}, themeReco, {
-  authorAvatar: '/avatar.jpeg',
+  // authorAvatar: '/avatar.jpeg',
   nav,
   sidebar,
   // logo: '/head.png',
