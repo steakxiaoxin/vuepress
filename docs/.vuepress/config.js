@@ -2,7 +2,7 @@ const themeConfig = require("./config/theme/");
 
 module.exports = {
   title: "新",
-  description: "为什么要让自己失望呢",
+  description: "新的开始",
   dest: "./vp",
   port: "8888",
   base: "/vp/",
