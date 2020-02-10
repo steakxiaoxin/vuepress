@@ -53,16 +53,6 @@ module.exports = {
       }
     ],
     [
-      "dynamic-title",
-      {
-        showIcon: "/vp/favicon.ico",
-        showText: "(/≧▽≦/)来啦老弟！",
-        hideIcon: "/vp/favicon.ico",
-        hideText: "(-.-)给朕肥来！",
-        recoverTime: 2000
-      }
-    ],
-    [
       // 使你的 VuePress 站点支持简洁链接
       "vuepress-plugin-clean-urls",
       {
