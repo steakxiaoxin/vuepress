@@ -1,6 +1,6 @@
 ---
 title: vue-analysis
-date: 2019-09-09
+date: 2019-08-15
 sidebar: "auto"
 categories:
   - front-end
