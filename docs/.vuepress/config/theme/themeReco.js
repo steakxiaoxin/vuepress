@@ -17,6 +17,9 @@ module.exports = {
   author: "新",
   // 备案号
   record: "浙ICP备19049160号-1",
+  recordLink: 'http://www.beian.miit.gov.cn',
+  // cyberSecurityRecord: '公安部备案文案',
+  // cyberSecurityLink: 'http://www.beian.miit.gov.cn',
   // 项目开始时间
   startYear: "2019",
   // friendLink: [
