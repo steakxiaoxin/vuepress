@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[41],{372:function(t,e,n){"use strict";n.r(e);var s=n(2),l=Object(s.a)({},(function(){var t=this.$createElement,e=this._self._c||t;return e("ContentSlotsDistributor",{attrs:{"slot-key":this.$parent.slotKey}},[e("ol",[e("li",[this._v("人的一切痛苦，本质上都是对自己无能的愤怒。 --- 王小波")])])])}),[],!1,null,null,null);e.default=l.exports}}]);
